@@ -1,0 +1,945 @@
+/* ==========================================================================
+   AURA HEALTHCARE DESIGN SYSTEM & CORE UTILITIES
+   ========================================================================== */
+
+:root {
+    --bg-primary: #0b0f19;
+    --bg-secondary: #111827;
+    --glass-bg: rgba(17, 24, 39, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border-hover: rgba(56, 189, 248, 0.25);
+    
+    /* Elegant Modern HSL Palettes */
+    --color-primary: #38bdf8; /* Sleek Neon Blue */
+    --color-primary-hover: #0ea5e9;
+    --color-success: #10b981; /* Emerald Green */
+    --color-warning: #f59e0b; /* Safety Amber */
+    --color-danger: #ef4444;  /* Crimson Red */
+    --color-info: #6366f1;    /* Violet Indigo */
+    
+    /* Typography */
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    
+    /* Transitions & Shadows */
+    --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --glow-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+    --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background Glowing Orbs */
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(140px);
+    opacity: 0.18;
+    z-index: 0;
+    pointer-events: none;
+    transition: var(--transition-smooth);
+}
+
+.orb-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--color-primary) 0%, transparent 70%);
+    top: -100px;
+    left: -100px;
+}
+
+.orb-2 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--color-info) 0%, transparent 70%);
+    bottom: -150px;
+    right: -100px;
+}
+
+.orb-3 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--color-success) 0%, transparent 70%);
+    top: 30%;
+    right: 20%;
+    opacity: 0.08;
+}
+
+/* Premium Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.15);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+}
+
+/* ==========================================================================
+   GLASSMORPHISM COMPONENT BLOCKS
+   ========================================================================== */
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition-smooth);
+    position: relative;
+    z-index: 10;
+}
+
+.glass-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+/* ==========================================================================
+   LAYOUT STRUCTURE
+   ========================================================================== */
+
+.app-container {
+    width: 100%;
+    max-width: 1560px;
+    margin: 0 auto;
+    padding: 30px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Header Design */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    margin-bottom: 25px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo-pulse {
+    font-size: 34px;
+    animation: heartbeat 2s infinite ease-in-out;
+}
+
+.brand-text h1 {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #ffffff 40%, var(--color-primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-text p {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.gps-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+}
+
+.pulse-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.pulse-indicator::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    animation: radar-pulse 1.8s infinite ease-out;
+}
+
+.status-green { background-color: var(--color-success); }
+.status-green::after { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.4); }
+
+.status-yellow { background-color: var(--color-warning); }
+.status-yellow::after { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.4); }
+
+.status-red { background-color: var(--color-danger); }
+.status-red::after { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0.4); }
+
+.status-blue { background-color: var(--color-primary); }
+.status-blue::after { box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.4); }
+
+#gps-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Main Grid Layout */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 460px 1fr;
+    gap: 25px;
+    align-items: start;
+}
+
+/* ==========================================================================
+   LEFT COLUMN: LOCATOR DECK
+   ========================================================================== */
+
+.deck-column {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.control-panel {
+    padding: 22px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    transition: var(--transition-smooth);
+}
+
+.search-box:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: var(--glow-shadow);
+}
+
+.search-icon {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-right: 12px;
+}
+
+.search-box input {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 13px;
+    width: 100%;
+    outline: none;
+}
+
+.search-box input::placeholder {
+    color: var(--text-muted);
+}
+
+.filter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-group label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+}
+
+.custom-select {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 12px;
+    padding: 10px 12px;
+    outline: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.custom-select:hover, .custom-select:focus {
+    border-color: var(--color-primary);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.custom-select option {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* Hospital Deck Container */
+.hospital-deck {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-height: calc(100vh - 290px);
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* Hospital Card UI */
+.hospital-card {
+    padding: 22px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.hospital-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    border-color: var(--glass-border-hover);
+    box-shadow: 0 12px 30px rgba(56, 189, 248, 0.08);
+}
+
+.hospital-card.selected {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.12);
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 12px;
+}
+
+.card-top h4 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.3;
+    color: white;
+}
+
+.rating-badge {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--color-warning);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.address-line {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+}
+
+.specialty-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.tag {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: capitalize;
+}
+
+.tag-specialty {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-secondary);
+}
+
+.tag-blue { background: rgba(56, 189, 248, 0.12); color: var(--color-primary); }
+.tag-green { background: rgba(16, 185, 129, 0.12); color: var(--color-success); }
+.tag-red { background: rgba(239, 68, 68, 0.12); color: var(--color-danger); }
+
+/* Hospital Card Live Telemetry Footer */
+.card-telemetry {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 14px;
+    gap: 12px;
+}
+
+.telemetry-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.telemetry-icon {
+    font-size: 18px;
+}
+
+.telemetry-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.telemetry-details .val {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+}
+
+.telemetry-details .lbl {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   RIGHT COLUMN: MAP & TRIAGE ENGINE
+   ========================================================================== */
+
+.map-triage-column {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card-header h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 18px;
+    color: white;
+}
+
+/* Map Card */
+.map-card {
+    overflow: hidden;
+}
+
+.map-container {
+    height: 380px;
+    width: 100%;
+    z-index: 1; /* Keep map layers correctly stacked below absolute overlays */
+}
+
+/* Customize Leaflet elements to fit dark theme */
+.leaflet-container {
+    background: #0f1624 !important;
+}
+
+.leaflet-bar {
+    border: 1px solid var(--glass-border) !important;
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(10px);
+    border-radius: 10px !important;
+    overflow: hidden;
+}
+
+.leaflet-bar a {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    border-bottom: 1px solid var(--glass-border) !important;
+}
+
+.leaflet-bar a:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.leaflet-popup-content-wrapper {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 12px !important;
+}
+
+.leaflet-popup-tip {
+    background: var(--bg-secondary) !important;
+}
+
+/* Pulsing User GPS Marker */
+.user-gps-marker {
+    background: none;
+    border: none;
+}
+
+.pulsing-gps-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 2px solid white;
+    box-shadow: 0 0 10px var(--color-primary);
+    position: relative;
+}
+
+.pulsing-gps-dot::after {
+    content: '';
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    border-radius: 50%;
+    background: rgba(56, 189, 248, 0.2);
+    top: -100%;
+    left: -100%;
+    animation: radar-pulse 2s infinite ease-out;
+}
+
+/* Triage Booking Card */
+.triage-card {
+    padding: 0;
+}
+
+.triage-form-container {
+    padding: 24px;
+}
+
+.no-selection-alert {
+    padding: 40px;
+    text-align: center;
+    color: var(--text-secondary);
+    border: 2px dashed rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    font-size: 13px;
+}
+
+.selected-hospital-indicator {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+}
+
+.selected-hospital-indicator .label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.selected-hospital-indicator h4 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--color-primary);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.form-group input, .form-group textarea {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 13px;
+    padding: 12px;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: var(--color-primary);
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.form-tip {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Premium Buttons */
+.btn {
+    border: none;
+    border-radius: 12px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-info) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.25);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    padding: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-icon:hover {
+    transform: rotate(180deg);
+}
+
+.w-100 { width: 100%; }
+.hidden { display: none !important; }
+
+/* ==========================================================================
+   DIGITAL TICKET MODAL DESIGN
+   ========================================================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 7, 12, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.digital-ticket-card {
+    width: 440px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+}
+
+.ticket-glowing-strip {
+    height: 6px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-info), var(--color-success));
+    width: 100%;
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.ticket-header .brand {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    color: var(--color-primary);
+}
+
+.ticket-close {
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.ticket-body {
+    padding: 24px;
+}
+
+.hospital-banner {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin-bottom: 20px;
+}
+
+.hospital-banner .hosp-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.hospital-banner h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 16px;
+    color: white;
+}
+
+.ticket-main-grid, .ticket-sub-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 20px;
+    gap: 16px;
+}
+
+.info-block .label {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.info-block h4 {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.text-right { text-align: right; }
+
+.tag-department {
+    background: rgba(99, 102, 241, 0.15);
+    color: #a5b4fc;
+    padding: 4px 10px;
+    display: inline-block;
+    border-radius: 8px;
+}
+
+/* Queue numbers board */
+.queue-board {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 14px;
+    padding: 18px;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.queue-number-block {
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.queue-number-block h1 {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 38px;
+    color: var(--color-primary);
+}
+
+.wait-time-block {
+    padding-left: 10px;
+}
+
+.wait-time-block h2 {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 26px;
+    color: var(--color-success);
+}
+
+.wait-time-block h2 .mins {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-secondary);
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.badge-high { background: rgba(239, 68, 68, 0.15); color: var(--color-danger); }
+.badge-med { background: rgba(245, 158, 11, 0.15); color: var(--color-warning); }
+.badge-low { background: rgba(16, 185, 129, 0.15); color: var(--color-success); }
+.badge-active { background: rgba(56, 189, 248, 0.15); color: var(--color-primary); }
+
+/* QR Code */
+.qr-code-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.qr-code {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.qr-pixel-matrix {
+    width: 100px;
+    height: 100px;
+    background: 
+        radial-gradient(square, black 2px, transparent 2px),
+        repeating-linear-gradient(45deg, #000, #000 4px, #fff 4px, #fff 8px);
+    background-size: 10px 10px;
+    opacity: 0.85;
+}
+
+.qr-caption {
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.ticket-footer {
+    padding: 20px 24px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ticket-footer p {
+    font-size: 10.5px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+/* Animations */
+.animate-pop {
+    animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes pop-in {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.12); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.12); }
+    70% { transform: scale(1); }
+}
+
+@keyframes radar-pulse {
+    0% { transform: scale(1); opacity: 0.9; }
+    100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* ==========================================================================
+   LOADING & EMPTY STATE DESIGN
+   ========================================================================== */
+
+.loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    color: var(--text-secondary);
+}
+
+.spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   RESPONSIVE SCALES (MEDIA QUERIES)
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .hospital-deck {
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 600px) {
+    .app-container {
+        padding: 15px;
+    }
+    
+    .dashboard-header {
+        flex-direction: column;
+        align-items: start;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+}

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Hospital Queue & Geolocation Locator</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet JS Map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Custom Premium CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Abstract Glowing Orbs in Background -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+
+    <div class="app-container">
+        <!-- Dashboard Header -->
+        <header class="dashboard-header glass-card">
+            <div class="brand">
+                <div class="logo-pulse">🏥</div>
+                <div class="brand-text">
+                    <h1>AURA Healthcare</h1>
+                    <p>Advanced Smart Queue & Hospital Geolocation System</p>
+                </div>
+            </div>
+            
+            <div class="gps-status glass-panel">
+                <div class="pulse-indicator status-green" id="gps-pulse"></div>
+                <span id="gps-label">Tracking Location...</span>
+                <button class="btn btn-icon" id="retrack-btn" title="Refresh GPS Location">🔄</button>
+            </div>
+        </header>
+
+        <!-- Main Workspace Grid -->
+        <main class="dashboard-grid">
+            
+            <!-- Left Side: Locator & Hospital Deck -->
+            <section class="deck-column">
+                <!-- Advanced Controls Panel -->
+                <div class="control-panel glass-card">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="search-input" placeholder="Search symptoms, specialties (e.g. Cardiology)...">
+                    </div>
+                    
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label>Sort By</label>
+                            <select id="sort-filter" class="custom-select">
+                                <option value="distance">Nearest Distance 📍</option>
+                                <option value="rating">Highest Rating ⭐</option>
+                                <option value="wait">Shortest Wait ⏱️</option>
+                                <option value="crowd">Lowest Crowd 👥</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label>Max Distance</label>
+                            <select id="distance-filter" class="custom-select">
+                                <option value="all">Any Distance</option>
+                                <option value="5">Within 5 km</option>
+                                <option value="10">Within 10 km</option>
+                                <option value="20">Within 20 km</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hospital Cards Deck -->
+                <div class="hospital-deck" id="hospital-deck">
+                    <!-- Cards will be populated dynamically -->
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Locating premium healthcare facilities nearby...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Side: Map & Live Triage Booking -->
+            <section class="map-triage-column">
+                
+                <!-- Map Container Card -->
+                <div class="map-card glass-card">
+                    <div class="card-header">
+                        <h3>Interactive Medical Routing Map</h3>
+                        <span class="tag tag-blue">Live GPS</span>
+                    </div>
+                    <div id="map" class="map-container"></div>
+                </div>
+
+                <!-- Intelligent Triage & Queue Card -->
+                <div class="triage-card glass-card" id="triage-section">
+                    <div class="card-header">
+                        <h3>Remote Queue Intelligent Registration</h3>
+                        <span class="tag tag-green">AI Triaged</span>
+                    </div>
+                    
+                    <div class="triage-form-container">
+                        <div id="no-hospital-selected" class="no-selection-alert">
+                            <p>👈 Select a hospital from the list to enable Remote Queue Booking</p>
+                        </div>
+
+                        <form id="queue-form" class="hidden">
+                            <div class="selected-hospital-indicator glass-panel">
+                                <span class="label">Booking For:</span>
+                                <h4 id="selected-hospital-name">No Hospital Selected</h4>
+                                <input type="hidden" id="selected-hospital-id">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="patient-name">Patient Full Name</label>
+                                <input type="text" id="patient-name" placeholder="Enter patient name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="patient-problem">Symptoms & Medical Complaint</label>
+                                <textarea id="patient-problem" rows="3" placeholder="Describe symptoms in detail (e.g. 'Sudden left side chest pain with cold sweat' or 'Child has a high temperature since morning')..." required></textarea>
+                                <small class="form-tip">Our advanced NLP engine will analyze urgency and route you to the correct department instantly.</small>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100" id="submit-booking-btn">
+                                <span class="btn-text">Generate Smart Queue Ticket</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Smart Digital Queue Ticket Modal -->
+    <div class="modal-overlay hidden" id="ticket-modal">
+        <div class="digital-ticket-card glass-card animate-pop">
+            <div class="ticket-glowing-strip"></div>
+            
+            <div class="ticket-header">
+                <div class="brand">AURA Smart Queue</div>
+                <div class="ticket-close" id="close-ticket-btn">&times;</div>
+            </div>
+            
+            <div class="ticket-body">
+                <div class="hospital-banner">
+                    <p class="hosp-label">Hospital</p>
+                    <h3 id="ticket-hosp-name">Apollo Smart Health City</h3>
+                </div>
+                
+                <div class="ticket-main-grid">
+                    <div class="info-block">
+                        <p class="label">Patient Name</p>
+                        <h4 id="ticket-patient-name">Surya Prasad</h4>
+                    </div>
+                    <div class="info-block text-right">
+                        <p class="label">Assigned Specialty</p>
+                        <h4 id="ticket-dept" class="tag tag-department">Cardiology</h4>
+                    </div>
+                </div>
+
+                <div class="queue-board">
+                    <div class="queue-number-block">
+                        <p class="label">Your Queue Position</p>
+                        <h1 id="ticket-number">#04</h1>
+                    </div>
+                    <div class="wait-time-block">
+                        <p class="label">Est. Waiting Time</p>
+                        <h2 id="ticket-wait">12 <span class="mins">mins</span></h2>
+                    </div>
+                </div>
+
+                <div class="ticket-sub-grid">
+                    <div class="info-block">
+                        <p class="label">Priority Classification</p>
+                        <div id="ticket-urgency-badge" class="badge badge-high">Emergency 🚨</div>
+                    </div>
+                    <div class="info-block text-right">
+                        <p class="label">Status</p>
+                        <div class="badge badge-active">Active in Queue</div>
+                    </div>
+                </div>
+
+                <!-- Digital Mock QR Code -->
+                <div class="qr-code-container">
+                    <div class="qr-code">
+                        <!-- Custom styled Grid representing a QR Code -->
+                        <div class="qr-pixel-matrix"></div>
+                    </div>
+                    <p class="qr-caption">Scan QR at Hospital Frontdesk to Auto-Checkin</p>
+                </div>
+            </div>
+            
+            <div class="ticket-footer">
+                <p>Digital Token ID: <span id="ticket-token-id">T-8472-X</span></p>
+                <button class="btn btn-secondary w-100" id="print-ticket-btn">Add to Apple Wallet / Google Pay</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS Map Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Custom Geolocation & Dashboard Scripts -->
+    <script src="/static/js/map.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
