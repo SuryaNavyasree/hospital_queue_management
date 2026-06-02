@@ -2,6 +2,8 @@
 
 A premium, state-of-the-art medical dispatch and routing dashboard built with **Flask**, **Leaflet.js**, **OpenCV**, and **YOLOv8**. Aura Healthcare tracks user coordinates in real-time, displays nearby hospitals, details their specialties and ratings, calculates exact physical distances, and enables intelligent remote queue registration with AI-powered symptom triage.
 
+[![Deploy to Render](https://render.com/images/deploy-to-render.svg)](https://render.com/deploy?repo=https://github.com/SuryaNavyasree/hospital_queue_management)
+
 ---
 
 ## ✨ Features
