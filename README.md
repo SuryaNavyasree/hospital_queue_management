@@ -1,3 +1,13 @@
+---
+title: Smart Hospital Queue & Geolocation Locator
+emoji: 🏥
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # AURA Healthcare: Advanced Smart Queue & Geolocation Hospital Locator
 
 A premium, state-of-the-art medical dispatch and routing dashboard built with **Flask**, **Leaflet.js**, **OpenCV**, and **YOLOv8**. Aura Healthcare tracks user coordinates in real-time, displays nearby hospitals, details their specialties and ratings, calculates exact physical distances, and enables intelligent remote queue registration with AI-powered symptom triage.
