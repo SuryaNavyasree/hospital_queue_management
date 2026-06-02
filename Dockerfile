@@ -18,6 +18,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=user:user . .
 
+RUN chown -R user:user /home/user/app
+
 USER user
 
 EXPOSE 7860
