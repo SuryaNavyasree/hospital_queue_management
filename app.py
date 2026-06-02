@@ -283,9 +283,6 @@ def stream_crowd():
             time.sleep(12)  # update every 12 seconds
             
     return Response(event_stream(), mimetype="text/event-stream")
-
-import os
-
 if __name__ == "__main__":
-    if os.environ.get("STREAMLIT_CLOUD") != "true":
-        app.run(debug=False, host="0.0.0.0", port=5000, use_reloader=False)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
